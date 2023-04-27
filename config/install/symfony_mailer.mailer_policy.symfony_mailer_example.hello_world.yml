@@ -1,0 +1,18 @@
+#
+# Define the "content template" for the hello world mail
+#
+# This is edited using the GUI provided at SITE/admin/config/system/mailer
+#
+langcode: en
+status: true
+dependencies:
+  module:
+    - symfony_mailer_example
+id: symfony_mailer_example.hello_world
+configuration:
+  email_body:
+    content:
+      value: "<p>Hello from <a href=\"[site:url]\">[site:name]</a>.</p>\r\n\r\n<p>Your lucky number is <span class=\"lucky\">{{ lucky_number }}</span>.</p>"
+      format: email_html
+  email_subject:
+    value: "Hello world!"

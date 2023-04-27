@@ -1,0 +1,9 @@
+# Source: https://www.digitalnadeem.com/drupal/how-to-configure-symphony-mailer-in-drupal/
+
+symfony_mailer_example.test-mail:
+  path: "/send-hello-world"
+  defaults:
+    _title: 'Send a "Hello World" Email'
+    _form: '\Drupal\symfony_mailer_example\Form\HelloWorldEmailForm'
+  requirements:
+    _access: "TRUE"
