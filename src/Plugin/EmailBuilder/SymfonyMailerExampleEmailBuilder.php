@@ -25,16 +25,14 @@ class SymfonyMailerExampleEmailBuilder extends EmailBuilderBase
      *
      * @param \Drupal\symfony_mailer\EmailInterface $email
      *   The email to modify.
-     * @param mixed                                 $to
+     * @param mixed                                 $recipient
      *   The to addresses, see Address::convert().
      */
-    public function createParams(EmailInterface $email, $to = null)
+    public function createParams(EmailInterface $email, $recipient = null)
     {
-
-        if ($to) {
-            // For back-compatibility, allow $to to be NULL.
-            $email->setParam('to', $to);
-        }
+        // We require a recipient
+        assert($recipient != null);
+        $email->setParam('recipient', $recipient);
     }
 
     /**

@@ -58,117 +58,60 @@ existing test email page.
    to `sendTypedEmail` in the `submitForm` function in
    `src/Form/HelloWorldForm.php`.
 
-# How to Create Your Own Custom Module
+## How to Extend
 
-## About this guidance
+If you want to create your own module, here are some common modifications you
+may wish to make.
 
-This is the sequence which I followed, though without the additional support of
-the "STARTERKIT" module provided here. As you make this your own, you can
-consult the example module for a complete example.
-
-The starterkit is a stripped down version of the example, which you can then
-build back up as befits your needs.
-
-CAVEAT: As with Symfony Mail Example, this is provided by novice programmer who
-is just learning Symfony Mail.
-
-## Installing the starterkit
-
-1. Copy the symfony_mailer_example/modules/STARTERKIT folder to where you'd like
-   your custom module to be.
-2. Review what's there:
-
-- YOUR_MODULE.info.yml: same as for any custom module.
-- YOUR_MODULE.routing.yml: Defines the path for testing your custom email. You
-  may want to delete this file when done.
-- YOUR_MODULE.libraries.yml: Declares CSS. You may want to declare css here or
-  you can declare it in your theme.
-- src/Plugin/EmailBuilder/YOURMODULEEmailBuilder.php:
-  - This is where the email `type` and `sub-type` are declared. These are used
-    later when creating a mailer policy.
-  - To keep things simple, the starterkit uses hardcoded addresses. It sends an
-    email from the site email address to the current user's email address.
-  - To keep things simple, the starterkit does not provide twig variables to
-    customize the email content.
-- config/install/symfony_mailer.mailer_policy.YOUR_MODULE.YOUR_SUBTYPE.:
-  Provides the mailer policy which declares the content of the mail. It can be
-  edited via GUI at SITE/admin/config/system/mailer.
-- src/Plugin/Form/YOURMODULEForm.php: The form used to test your custom email.
-  You may want to delete it when done (along with YOUR_MODULE.routing.yml).
-- css/mail.css: The css provided by the module. Note: This starts empty.
-
-3. Select a name for your custom module and replace all instances of
-   'YOURMODULE' with it. Both in filenames and in file contents.
-   - Note: You'll see that some filenames and definitions use CamelCase instead
-     of underscores
-   - If doing a global search-and-replace, do two replacements:
-     - `YOURMODULE` -> (e.g.) `MyCustomModule`
-     - `YOUR_MODULE` -> (e.g.)`my_custom_module`
-4. Select a name for the custom email you will create. Replace all instances of
-   `YOUR_SUBTYPE` with it:
-   - `YOUR_SUBTYPE` -> (e.g.)`short_name_for_email`
-
-## Testing the starterkit
-
-1. Now that you've customized the starterkit, install it.
-2. Go to SITE/YOUR_MODULE/test to see the test form
-3. Click on the button to send an email from the site to yourself.
-
-Note: After you install, a default mailer policy will be available which you can
-edit.
-
-## Sending email programmatically
+### Sending the email programmatically
 
 Besides using the form to send your custom email, you will now also be able to
 send it programmatically. Use this call:
 
 ```
 $emailFactory = \Drupal::service('email_factory');
-$emailFactory->sendTypedEmail(YOUR_MODULE, YOUR_SUBTYPE, TO)
+$emailFactory->sendTypedEmail('symfony_mailer_example', 'hello_world', RECIPIENT)
 ```
 
-You'll need to replace YOUR_MODULE, YOUR_SUBTYPE, and TO when using it.
+You'll need to provide the RECIPIENT.
 
-## Extending the starterkit
+### Modifying the message
 
-### Extending the form
+1. Got to SITE/admin/config/system/mailer
+2. Click on the row for `Symfony Mailer Example` > `Hello world email`
+3. Edit the subject and or the template. The available twig variables are:
+   - `lucky_number`
+   - `to`
 
-1. To change the path, edit YOUR_MODULE.routing.yml.
-2. To extend the form, edit src/Plugin/Form/YOURMODULEForm.php.
+### Adding another message
 
-You can use the example module code as a starting point.
+1. Add a new email subtype in HelloWorldEmailBuilder.php
+2. Create a new mailer policy for it including elements for the subject and
+   body.
 
-If you do not want a form at all, delete the two files above.
+To send the new email, call
+`sendTypedEmail('symphony_mailer_example, 'YOUR_SUBTYPE', RECIPIENT)`
 
-### Setting custom parameters
+### Deleting the form
 
-Caveat: I'm not clear about the full potential of parameters. The seem able to
-capture any custom data you'd like to be available when building an email. They
-seem to be used most commonly used to capture the recipient or sender.
+If you do not want the form, delete:
 
-To _create_ parameters, edit the `createParams` function in
-'YOURMODULEEmailBuilder.php'.
+- symfony_mailer_example.routing.yml.
+- src/Plugin/Form/HelloWorldForm.php.
 
-- The starterkit only uses one parameter: `recipient`.
-
-To _use_ parameters, edit the `build` function in 'YOURMODULEEmailBuilder.php'.
-
-There may well be other times when it's helpful to u se parameters. For more
-examples, you search the base symfony_mailer module for "setParam".
-
-### Setting custom variables
+### Using custom variables
 
 Twig variables can be used to individualize the contents of emails. They can be
 used within mailer policies or, beyond the scope of this example, twig
 templates.
 
 To _create_ variables, edit the `build` function in
-'YOURMODULEEmailBuilder.php'.
+'HelloWorldEmailBuilder.php'.
 
 To _use_ variables, edit the mailer policy. You can use twig syntax to include
 variables in either the subject and/or the body.
 
-### Setting custom css
+### Providing custom css
 
 CSS may be added to your theme. See
 https://www.drupal.org/docs/contributed-modules/drupal-symfony-mailer/getting-started#s-css.
@@ -176,10 +119,23 @@ https://www.drupal.org/docs/contributed-modules/drupal-symfony-mailer/getting-st
 CSS may also be provided by your custom module.
 
 - These classes may be overridden by your theme.
-- The starterkit provides a blank css file at css/mail.css. This css is added to
-  your custom emails by the call to `addLibrary` in the `build` function in
-  'YOURMODULEEMailBuilder.php'. If you want css added by the module, go ahead
-  and include it within 'css/mail.css'.
-  - If you do not want your module to provide css, delete both 'css/mail.css'
-    and YOUR_MODULE.libraries.yml. Then delete the call to `addLibrary` in the
-    `build` function.
+- The example provides a css file at css/mail.css. This css is added by the call
+  to `addLibrary` in the `build` function in 'HelloWorldMailBuilder.php'.
+- If you do not want the module to provide css, delete both 'css/mail.css' and
+  symfony_mailer_example.libraries.yml. Then delete the call to `addLibrary` in
+  the `build` function.
+
+### Adding custom parameters
+
+Caveat: I'm not clear about the potential and usage of parameters. The seem able
+to capture any custom data you'd like to be available when building an email.
+They seem to be used most commonly used to capture the recipient or sender.
+
+To _provide_ additional parameters, edit the `createParams` function in
+'HelloWorldEmailBuilder.php'. As you can see, this only provides one parameter
+currently, `recipient`.
+
+To _use_ parameters, edit the `build` function in 'HelloWorldEmailBuilder.php'.
+
+There may well be other times when it's helpful to u se parameters. For more
+examples, you search the base symfony_mailer module for "setParam".

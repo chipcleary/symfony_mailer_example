@@ -60,8 +60,8 @@ class HelloWorldEmailForm extends FormBase
         $emailFactory = \Drupal::service('email_factory');
 
         // If the "recipient" field is empty, send to the current user.
-        $to = $form_state->getValue('recipient') ?: $this->currentUser();
-        $emailFactory->sendTypedEmail('symfony_mailer_example', 'hello_world', $to);
+        $recipient = $form_state->getValue('recipient') ?: $this->currentUser();
+        $emailFactory->sendTypedEmail('symfony_mailer_example', 'hello_world', $recipient);
         $message = is_object($to) ?
             $this->t('An attempt has been made to send an email to you.') :
             $this->t('An attempt has been made to send an email to @to.', ['@to' => $to]);
