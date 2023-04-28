@@ -40,8 +40,8 @@ class SymfonyMailerExampleEmailBuilder extends EmailBuilderBase
      */
     public function build(EmailInterface $email)
     {
-        if ($to = $email->getParam('to')) {
-            $email->setTo($to);
+        if ($recipient = $email->getParam('recipient')) {
+            $email->setTo($recipient);
         }
 
         $email

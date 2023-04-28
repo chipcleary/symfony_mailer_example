@@ -62,9 +62,9 @@ class HelloWorldEmailForm extends FormBase
         // If the "recipient" field is empty, send to the current user.
         $recipient = $form_state->getValue('recipient') ?: $this->currentUser();
         $emailFactory->sendTypedEmail('symfony_mailer_example', 'hello_world', $recipient);
-        $message = is_object($to) ?
+        $message = is_object($recipient) ?
             $this->t('An attempt has been made to send an email to you.') :
-            $this->t('An attempt has been made to send an email to @to.', ['@to' => $to]);
+            $this->t('An attempt has been made to send an email to @recipient.', ['@recipient' => $recipient]);
         $this->messenger()->addMessage($message);
     }
 
