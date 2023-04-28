@@ -1,6 +1,0 @@
-name: My Custom Mail Module
-type: module
-description: "Programmatically provide custom email"
-core_version_requirement: ^9 || ^10
-dependencies:
-  - symfony_mailer:symfony_mailer
