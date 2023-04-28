@@ -1,0 +1,12 @@
+/**
+ *
+ * CSS used with emails provided by SymfonyMailerExampleEmailBuilder
+ *
+ * This starts out without any CSS. You may add it below.
+ *
+ * If you do not want your module to provide CSS, possibly because you
+ * are providing it in your theme:
+ *    Delete this file
+ *    Delete YOUR_MODULE.libraries.yml
+ *    Delete then delete the call to addLibrary in YOURMODULEEMAILBUILDER.php.
+ */

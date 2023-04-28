@@ -1,0 +1,7 @@
+#
+# Provide a library "email" with custom css
+#
+email:
+  css:
+    theme:
+      css/mail.css: {}

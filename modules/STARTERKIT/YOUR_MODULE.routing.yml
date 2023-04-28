@@ -1,0 +1,7 @@
+YOUR_MODULE.YOUR_SUBTYPE:
+  path: "/send_YOUR_MODULE_YOUR_SUBTYPE"
+  defaults:
+    _title: "Send Your Custom Email"
+    _form: '\Drupal\YOUR_MODULE\Form\YOURMODULEEmailForm'
+  requirements:
+    _access: "TRUE"

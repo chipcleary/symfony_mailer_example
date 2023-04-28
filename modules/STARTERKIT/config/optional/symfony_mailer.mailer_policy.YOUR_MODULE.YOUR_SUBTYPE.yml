@@ -1,0 +1,18 @@
+#
+# Define the "content template" for the custom mail
+#
+# This is edited using the GUI provided at SITE/admin/config/system/mailer
+#
+langcode: en
+status: true
+dependencies:
+  module:
+    - YOUR_MODULE
+id: YOUR_MODULE.YOUR_SUBTYPE
+configuration:
+  email_body:
+    content:
+      value: "<p>This is the body of my custom email</p>"
+      format: email_html
+  email_subject:
+    value: "This is the subject of my custom email"
